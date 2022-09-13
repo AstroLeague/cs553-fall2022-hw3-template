@@ -1,4 +1,4 @@
-name: HW2_CI
+name: HW3_CI
 
 on:
   push:
@@ -7,30 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  initialize:
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v2
-      - name: Initialize LXC container
-        run: |
-          echo "[INFO] -- Restoring ghRunner to freshContainer snapshot"
-          lxc restore ghRunner freshContainer
-          echo "[INFO] -- Starting ghRunner"
-          lxc start ghRunner
-          echo "[INFO] -- ghRunner started"
-          sleep 5
-          echo "[INFO] -- Cloning: https://github.com/datasys-classrooms/cs553-fall2022-hw2-testing.git"
-          git clone https://github.com/datasys-classrooms/cs553-fall2022-hw2-testing.git
-          echo "[INFO] -- Extracting contents in cs553-fall2022-hw2-testing"
-          mv cs553-fall2022-hw2-testing/check-submission.sh .
-          echo "[INFO] -- Removing directory cs553-fall2022-hw2-testing"          
-          rm -r cs553-fall2022-hw2-testing
-          echo "[INFO] -- Copying contents to /home/hoplite/runner-data"
-          cp -a * /home/hoplite/runner-data
-          sleep 5
-        
   main-work:
-    needs: initialize
     runs-on: self-hosted
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -42,17 +19,3 @@ jobs:
           password: 123
           command: |
             bash check-submission.sh all
-            
-  cleanup:
-    needs: [initialize, main-work]
-    if: always()
-    runs-on: self-hosted
-    steps:
-      - name: Clean-up LXC container
-        run: |
-          echo "[INFO] -- Shutting down ghRunner"
-          lxc stop ghRunner
-          echo "[INFO] -- ghRunner is stopped"
-          echo "[INFO] -- Removing runner-data"
-          rm -rf /home/hoplite/runner-data/*
-          echo "[INFO] -- Removed all runner-data"
