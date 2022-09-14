@@ -19,3 +19,4 @@ jobs:
           password: 123
           command: |
             bash check-submission.sh all
+            bash test-submission.sh all
