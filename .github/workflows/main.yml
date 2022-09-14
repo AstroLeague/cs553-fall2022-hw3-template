@@ -13,15 +13,14 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          ls -l
-          pwd
+      - name: Copying user repo
+        run: |
+          cp -a * /home/hoplite/runner-data/
       - uses: garygrossgarten/github-action-ssh@release
         with:
           host: 10.10.10.113
           username: hoplite
           password: 123
           command: |
-            ls -l
             bash check-submission.sh all
             bash test-submission.sh all
