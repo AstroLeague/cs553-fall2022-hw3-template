@@ -13,6 +13,10 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
+        with:
+          command: |
+            ls -l
+            pwd
       - uses: garygrossgarten/github-action-ssh@release
         with:
           host: 10.10.10.113
