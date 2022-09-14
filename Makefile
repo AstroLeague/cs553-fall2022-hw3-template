@@ -1,10 +1,8 @@
 GCC=gcc
-CFLAGS=-Wall
+CFLAGS=-Wall -Werror -O3
 
-all: cpubench
+all: cpubench.c
+	$(GCC) $(CFLAGS) -o cpubench $<
 
-cpubench: cpubench.c
-	$(GCC) $(CFLAGS) -o $@ $<
-
-clean: cpubench
+clean:
 	rm -rf cpubench
