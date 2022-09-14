@@ -8,14 +8,20 @@ on:
 
 jobs:
   main-work:
-    runs-on: spartan-4
+    runs-on: hw-3
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - uses: actions/checkout@v2
+      - run: |
+          ls -l
+          pwd
       - uses: garygrossgarten/github-action-ssh@release
         with:
           host: 10.10.10.113
           username: hoplite
           password: 123
           command: |
+            ls -l
             bash check-submission.sh all
+            bash test-submission.sh all
