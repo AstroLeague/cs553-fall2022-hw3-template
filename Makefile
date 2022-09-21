@@ -1,8 +1,13 @@
-GCC=gcc
-CFLAGS=-Wall -Werror -O3
+CC=gcc
+CFLAGS=-Wall -lpthread
 
-all: cpubench.c
-	$(GCC) $(CFLAGS) -o cpubench $<
+build: cpubench
+
+test: cpubench
+	./runbench.sh
+
+cpubench: cpubench.c
+	$(CC) $(CFLAGS) -o cpubench $<
 
 clean:
 	rm -rf cpubench
