@@ -3,7 +3,7 @@
 TEST_REPO_URL="https://github.com/datasys-classrooms/cs553-fall2022-hw3-testing.git"
 TEST_REPO_DIR="cs553-fall2022-hw3-testing"
 
-if [! -d $TEST_REPO_DIR]
+if [ ! -d $TEST_REPO_DIR ]
 then
     git clone $TEST_REPO_URL
 fi
