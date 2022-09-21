@@ -10,6 +10,7 @@ fi
 
 cd $TEST_REPO_DIR
 git fetch & git pull
+cd ..
 
 cp $TEST_REPO_DIR/test-data-single.txt test-data-single.txt
 cp $TEST_REPO_DIR/test-data-double.txt test-data-double.txt
