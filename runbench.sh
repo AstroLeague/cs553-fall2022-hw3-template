@@ -11,6 +11,8 @@ fi
 cd $TEST_REPO_DIR
 git fetch & git pull
 
-cp $TEST_REPO_DIR/test-data.txt test-data.txt
+cp $TEST_REPO_DIR/test-data-single.txt test-data-single.txt
+cp $TEST_REPO_DIR/test-data-double.txt test-data-double.txt
+
 bash $TEST_REPO_DIR/check-submission.sh all
 bash $TEST_REPO_DIR/test-submission.sh all
