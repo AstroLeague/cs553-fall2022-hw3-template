@@ -27,7 +27,7 @@ int DEBUG = false;
 //MUST MODIFY TO SATISFY ASSIGNMENT BELOW THIS LINE//
 //=================================================//
 
-const int SIZE = 256;
+const int SIZE = 500;
 
 
 // This function multiplies mat1[][] and mat2[][],
@@ -94,12 +94,12 @@ void compute_flops_double(int size)
 
 int compute_checksum_static_double(int size, double res[size][size]){
 	if (DEBUG)
-		printf("compute_checksum...");
+		printf("compute_checksum...\n");
 	int checksum = 0;
     int i, j;
     for (i = 0; i < size; i++) {
         for (j = 0; j < size; j++) {
-                checksum += (int) res[i][j];
+                checksum += (int)res[i][j];
         }
     }
     return checksum;
@@ -107,7 +107,7 @@ int compute_checksum_static_double(int size, double res[size][size]){
 
 int compute_checksum_static_int(int size, int res[size][size]){
 	if (DEBUG)
-	printf("compute_checksum...");
+	printf("compute_checksum...\n");
 	int checksum = 0;
     int i, j;
     for (i = 0; i < size; i++) {
@@ -121,12 +121,14 @@ int compute_checksum_static_int(int size, int res[size][size]){
 
 int compute_checksum_dynamic_double(int size, double** res){
 	if (DEBUG)
-	printf("compute_checksum...");
+	printf("compute_checksum...\n");
 	int checksum = 0;
     int i, j;
     for (i = 0; i < size; i++) {
         for (j = 0; j < size; j++) {
-                checksum += (int) res[i][j];
+                checksum += (int)res[i][j];
+                //if (DEBUG)
+                //printf("%d %lf\n", checksum, res[i][j]);
         }
     }
     return checksum;
@@ -134,7 +136,7 @@ int compute_checksum_dynamic_double(int size, double** res){
 
 int compute_checksum_dynamic_int(int size, int** res){
 	if (DEBUG)
-	printf("compute_checksum...");
+	printf("compute_checksum...\n");
 	int checksum = 0;
     int i, j;
     for (i = 0; i < size; i++) {
@@ -144,6 +146,7 @@ int compute_checksum_dynamic_int(int size, int** res){
     }
     return checksum;
 }
+
 
 
 int main(int argc, char **argv)
@@ -190,7 +193,7 @@ int main(int argc, char **argv)
         else
         {
         	printf("error in DEBUG argument, must be either true or false; exiting...\n");
-			printf("mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-2\n",argv[2],argv[3],size,num_threads);
+			printf("seed=%s mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-2\n",argv[1],argv[2],argv[3],size,num_threads);
 			exit(-1);
 		}	
 		
@@ -220,7 +223,7 @@ int main(int argc, char **argv)
 				if (DEBUG)
 					printf("you specified a size of %d, but there is a constant SIZE set to %d; your code is not correct, and must be updated to take the size parameter from the command line; exiting...", size, SIZE);
 				else
-					printf("mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-3\n",argv[2],argv[3],size,num_threads);
+					printf("seed=%s mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-3\n",argv[1],argv[2],argv[3],size,num_threads);
 				exit(-1);
 			}
 			size_t len = 0;
@@ -246,10 +249,30 @@ int main(int argc, char **argv)
 			for (i = 0; i < SIZE; i++) 
 				for (j = 0; j < SIZE; j++) 
 				{
-					arr1[i][j] = (int)((rand()*1.0/rand())*10.0); 
-					arr2[i][j] = (int)((rand()*1.0/rand())*10.0); 
+					arr1[i][j] = (int)((rand()/rand())*10.0); 
+					arr2[i][j] = (int)((rand()/rand())*10.0); 
 					arr3[i][j] = 0.0; 
 				}
+		
+			if (DEBUG)
+  			{
+    			for (i = 0; i < SIZE; i++) 
+    			{
+        			for (j = 0; j < SIZE; j++) 
+            			printf("%d ", arr1[i][j]); 
+        			printf("\n");
+				}
+				printf("\n");
+
+    			for (i = 0; i < SIZE; i++) 
+    			{
+        			for (j = 0; j < SIZE; j++) 
+            			printf("%d ", arr2[i][j]); 
+        			printf("\n");
+				}
+				printf("\n");
+			}			
+		
 		
 		
 			gettimeofday(&start, NULL);
@@ -271,7 +294,7 @@ int main(int argc, char **argv)
 				if (DEBUG)
 					printf("you specified a size of %d, but there is a constant SIZE set to %d; your code is not correct, and must be updated to take the size parameter from the command line; exiting...", size, SIZE);
 				else
-					printf("mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-4\n",argv[2],argv[3],size,num_threads);
+					printf("seed=%s mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-4\n",argv[1],argv[2],argv[3],size,num_threads);
 					
 				return -1;
 			}
@@ -298,10 +321,29 @@ int main(int argc, char **argv)
 			for (i = 0; i < SIZE; i++) 
 				for (j = 0; j < SIZE; j++) 
 				{
-					arr1[i][j] = (double)rand()/rand(); 
-					arr2[i][j] = (double)rand()/rand();  
+            arr1[i][j] = (double)rand()/rand(); // OR *(*(arr+i)+j) = ++count 
+            arr2[i][j] = (double)rand()/rand(); // OR *(*(arr+i)+j) = ++count 
 					arr3[i][j] = 0.0; 
 				}
+		
+			if (DEBUG)
+  			{
+    			for (i = 0; i < SIZE; i++) 
+    			{
+        			for (j = 0; j < SIZE; j++) 
+            			printf("%lf ", arr1[i][j]); 
+        			printf("\n");
+				}
+				printf("\n");
+
+    			for (i = 0; i < SIZE; i++) 
+    			{
+        			for (j = 0; j < SIZE; j++) 
+            			printf("%lf ", arr2[i][j]); 
+        			printf("\n");
+				}
+				printf("\n");
+			}			
 		
 		
 			gettimeofday(&start, NULL);
@@ -312,6 +354,18 @@ int main(int argc, char **argv)
 				checksum = compute_checksum_static_double(size, arr3);
 			else
 				checksum = compute_checksum_dynamic_double(size, arr3);
+	
+			if (DEBUG)
+			{	    
+				for (i = 0; i < size; i++) 
+    			{
+        			for (j = 0; j < size; j++) 
+            			printf("%lf ", arr3[i][j]); 
+        			printf("\n");
+				}
+				printf("\n");
+			}	    
+	
 		    
 		    
 		}
@@ -323,7 +377,7 @@ int main(int argc, char **argv)
 				printf("unrecognized option, exiting...\n");
 			}
 			else
-				printf("mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-6\n",argv[2],argv[3],size,num_threads);
+				printf("seed=%s mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-6\n",argv[1],argv[2],argv[3],size,num_threads);
 				
         	exit(1);
 		}
@@ -336,7 +390,7 @@ int main(int argc, char **argv)
 			if (DEBUG)
 				printf("error in size, check for overflow; exiting...\n");
 			else
-				printf("mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-7\n",argv[2],argv[3],size,num_threads);
+				printf("seed=%s mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-7\n",argv[1],argv[2],argv[3],size,num_threads);
 			exit(1);
 		}
 		if (elapsed_time_sec < 0)
@@ -344,7 +398,7 @@ int main(int argc, char **argv)
 			if (DEBUG)
 				printf("error in elapsed time, check for proper timing; exiting...\n");
 			else
-				printf("mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-8\n",argv[2],argv[3],size,num_threads);
+				printf("seed=%s mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-8\n",argv[1],argv[2],argv[3],size,num_threads);
 			exit(1);
 		}
 		if (elapsed_time_sec == 0)
@@ -352,7 +406,7 @@ int main(int argc, char **argv)
 			if (DEBUG)
 				printf("elapsed time is 0, check for proper timing or make sure to increase amount of work performed; exiting...\n");
 			else
-				printf("mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-9\n",argv[2],argv[3],size,num_threads);
+				printf("seed=%s mode=%s type=%s size=%d threads=%d time=0.0 throughput=0.0 checksum=-9\n",argv[1],argv[2],argv[3],size,num_threads);
 			exit(1);
 		}
 			
@@ -362,7 +416,7 @@ int main(int argc, char **argv)
 		else if (mode == 1)
 			num_giga_ops = size*size*size*1.0/(MEGABYTES*1024.0);
 		double throughput = num_giga_ops/elapsed_time_sec;
-		printf("mode=%s type=%s size=%d threads=%d time=%lf throughput=%lf checksum=%d\n",argv[2],argv[3],size,num_threads,elapsed_time_sec,throughput,checksum);
+		printf("seed=%s mode=%s type=%s size=%d threads=%d time=%lf throughput=%lf checksum=%d\n",argv[1],argv[2],argv[3],size,num_threads,elapsed_time_sec,throughput,checksum);
  
     }
 
